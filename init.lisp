@@ -1,28 +1,9 @@
 (run-shell-command "xsetroot -cursor_name left_cursor")
-(run-shell-command "keymacs")
 (run-shell-command "xset r rate 250 35")
 (run-shell-command "picom --experimental-backends")
-(run-shell-command "nmcli d connect wlp2s0")
-;(run-shell-command "nitrogen --restore")
-;(set-font "-*-terminus-*-*-*-*-22-*-*-*-*-*-*-*")
-; "-*-terminus-*-*-*-*-22-*-*-*-*-*-*-*"
-; "-mplus-gothic-medium-*-*-*-17-*-*-*-*-*-*-*"
-; "-*-tewi-*-*-*-*-17-*-*-*-*-*-*-*"
-; "-*-unifont-*-*-*-*-17-*-*-*-*-*-*-*"
 
-(require :ttf-fonts)
-(setf xft:*font-dirs* '("/usr/share/fonts/" "/home/wizard/.fonts"))
-(setf clx-truetype:+font-cache-filename+ (concat (getenv "HOME") "/.fonts/font-cache.sexp"))
-(xft:cache-fonts)
-(set-font (make-instance 'xft:font :family "Office Code Pro" :subfamily "Regular" :size 16))
-
-;(run-shell-command "xfce4-panel")
-;(run-shell-command "nm-applet")
-(run-shell-command "nmcli d connect wlp2s0")
 (setf *window-format* "%m%n%s%c")
 (setf *screen-mode-line-format* (list "[^B%n^b] %W^>"
-				      'upflag
-				      '(:EVAL (connected?))
 				      '(:EVAL (bat))
 				      " %d"))
 (setf *time-modeline-string* "%a %b %e %k:%M")
@@ -65,17 +46,6 @@
 (define-key *top-map* (kbd "XF86MonBrightnessDown") "exec xbacklight -5%")
 (define-key *top-map* (kbd "XF86MonBrightnessUp") "exec xbacklight +5%")
 
-(defun echx (str)
-  (with-open-file (output "~/Documents/echx.org"
-                  :direction         :output
-                  :if-does-not-exist :create
-                  :if-exists         :append)
-  (format output "* ~a~%" str)))
-
-(defcommand note (str)
-  ((:string "Note: "))
-  (echx str)
-  (message "Noted: ~a" str))
 
 (defun mpv (str)
   (run-shell-command (concatenate 'string "mpv " str)))
@@ -118,23 +88,4 @@
 	      "FUL"
 	      "^1ERR^*"))))
 
-(defparameter upflag
-  (if (> (length (run-shell-command "cat ~/.local/.updateflag" t)) 0)
-      "^B^4[U]^*^b "
-      ""))
-
-(defun connected? ()
-  (if (> (length (run-shell-command "nmcli -o | grep wlp2s0 | grep -w connected" t)) 0)
-      "^BC^b "
-      "N "))
-
-;;; SWANK
-;
-;(in-package :stumpwm)
-;
-;(require :swank)
-;(swank-loader:init)
-;(swank:create-server :port 4004
-;					 :style swank:*communication-style*
-;					 :dont-close t)
 ;

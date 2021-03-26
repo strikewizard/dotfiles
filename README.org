@@ -1,0 +1,4 @@
+#+TITLE: Dotfiles
+* These are my personal dotfiles for:
+** Emacs
+** StumpWM

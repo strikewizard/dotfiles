@@ -1,3 +1,5 @@
 #+TITLE: Dotfiles
+
 These are my dotfiles for Emacs and StumpWM.
+
 Most of strikemacs.el is taken from witchmacs
